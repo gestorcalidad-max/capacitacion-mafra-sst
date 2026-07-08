@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Capacitacion: Accidente de Trabajo - Clinica MAFRA</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  :root {
+    --primary: #9a6da9;
+    --primary-dark: #7b5787;
+    --primary-darker: #5c4165;
+    --primary-light: #b898c2;
+    --primary-lighter: #d6c4dc;
+    --secondary: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --dark: #2d1b33;
+    --card: #ffffff;
+    --bg: #faf5fc;
+    --text: #4a2d52;
+    --text-light: #7a5a82;
+    --border: #e8dce8;
+    --shadow: 0 4px 6px -1px rgba(90, 65, 101, 0.1), 0 2px 4px -2px rgba(90, 65, 101, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(90, 65, 101, 0.1), 0 4px 6px -4px rgba(90, 65, 101, 0.1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+
+  .header {
+    background: linear-gradient(135deg, var(--primary-darker) 0%, var(--primary) 50%, var(--primary-light) 100%);
+    color: white; padding: 40px 30px; border-radius: 20px; margin-bottom: 24px;
+    box-shadow: var(--shadow-lg); position: relative; overflow: hidden;
+  }
+  .header::before {
+    content: ''; position: absolute; top: -50%; right: -20%; width: 300px; height: 300px;
+    background: rgba(255,255,255,0.08); border-radius: 50%;
+  }
+  .header::after {
+    content: ''; position: absolute; bottom: -30%; left: -10%; width: 200px; height: 200px;
+    background: rgba(255,255,255,0.05); border-radius: 50%;
+  }
+  .header-content { position: relative; z-index: 1; }
+  .header-logo { 
+    width: 180px; height: auto; margin-bottom: 20px; 
+    filter: brightness(0) invert(1) drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  }
+  .header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; }
+  .header p { opacity: 0.9; font-size: 1.05rem; }
+  .header .badge {
+    display: inline-block; background: rgba(255,255,255,0.2); padding: 6px 16px;
+    border-radius: 50px; font-size: 0.85rem; font-weight: 600; margin-top: 12px;
+    backdrop-filter: blur(10px);
+  }
+
+  .nav-tabs {
+    display: flex; gap: 8px; margin-bottom: 24px; overflow-x: auto; padding-bottom: 4px;
+  }
+  .nav-tab {
+    flex-shrink: 0; padding: 12px 20px; border-radius: 12px; border: none;
+    background: var(--card); color: var(--text-light); font-weight: 600; cursor: pointer;
+    transition: all 0.3s; box-shadow: var(--shadow); font-size: 0.9rem;
+  }
+  .nav-tab:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); color: var(--primary); }
+  .nav-tab.active { background: var(--primary); color: white; }
+  .nav-tab .icon { margin-right: 6px; }
+
+  .section { display: none; animation: fadeIn 0.4s ease; }
+  .section.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  .card {
+    background: var(--card); border-radius: 16px; padding: 28px; margin-bottom: 20px;
+    box-shadow: var(--shadow); border: 1px solid var(--border);
+  }
+  .card-title {
+    font-size: 1.25rem; font-weight: 700; color: var(--dark); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .card-title .emoji { font-size: 1.4rem; }
+
+  .definition-box {
+    background: linear-gradient(135deg, #f5eef7 0%, #ebe0ef 100%);
+    border-left: 4px solid var(--primary); padding: 20px; border-radius: 12px; margin-bottom: 20px;
+  }
+  .definition-box h3 { color: var(--primary-dark); margin-bottom: 8px; font-size: 1.1rem; }
+  .definition-box p { color: var(--text); font-size: 0.95rem; }
+
+  .example-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+  @media (max-width: 640px) { .example-grid { grid-template-columns: 1fr; } }
+
+  .example-card {
+    padding: 18px; border-radius: 12px; border: 2px solid; transition: transform 0.2s;
+  }
+  .example-card:hover { transform: translateY(-3px); }
+  .example-card.yes { background: #f0fdf4; border-color: var(--secondary); }
+  .example-card.no { background: #fef2f2; border-color: var(--danger); }
+  .example-card .label {
+    display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 0.85rem;
+    padding: 4px 12px; border-radius: 50px; margin-bottom: 10px;
+  }
+  .example-card.yes .label { background: #dcfce7; color: #166534; }
+  .example-card.no .label { background: #fee2e2; color: #991b1b; }
+  .example-card h4 { font-size: 1rem; margin-bottom: 6px; color: var(--dark); }
+  .example-card p { font-size: 0.9rem; color: var(--text-light); }
+
+  .step-timeline { position: relative; padding-left: 40px; }
+  .step-timeline::before {
+    content: ''; position: absolute; left: 15px; top: 0; bottom: 0; width: 3px;
+    background: linear-gradient(to bottom, var(--primary), var(--primary-light)); border-radius: 3px;
+  }
+  .step {
+    position: relative; margin-bottom: 24px; padding: 20px; background: var(--card);
+    border-radius: 14px; box-shadow: var(--shadow); border: 1px solid var(--border);
+  }
+  .step::before {
+    content: attr(data-num); position: absolute; left: -40px; top: 20px;
+    width: 32px; height: 32px; background: var(--primary); color: white;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 0.9rem; border: 3px solid var(--bg);
+  }
+  .step h4 { color: var(--primary-dark); font-size: 1.05rem; margin-bottom: 8px; }
+  .step p { font-size: 0.92rem; color: var(--text-light); }
+  .step .time-badge {
+    display: inline-block; background: #fef3c7; color: #92400e; padding: 4px 10px;
+    border-radius: 6px; font-size: 0.8rem; font-weight: 600; margin-top: 8px;
+  }
+  .step .urgent { background: #fee2e2; color: #991b1b; }
+
+  .quiz-container { margin-top: 20px; }
+  .quiz-question {
+    background: var(--card); border-radius: 14px; padding: 24px; margin-bottom: 16px;
+    box-shadow: var(--shadow); border: 1px solid var(--border);
+  }
+  .quiz-question h4 { margin-bottom: 14px; font-size: 1rem; color: var(--dark); }
+  .quiz-options { display: flex; flex-direction: column; gap: 10px; }
+  .quiz-option {
+    padding: 14px 18px; border-radius: 10px; border: 2px solid var(--border);
+    cursor: pointer; transition: all 0.2s; font-size: 0.95rem; background: white;
+  }
+  .quiz-option:hover { border-color: var(--primary); background: #faf5fc; }
+  .quiz-option.correct { border-color: var(--secondary); background: #f0fdf4; color: #166534; }
+  .quiz-option.wrong { border-color: var(--danger); background: #fef2f2; color: #991b1b; }
+  .quiz-option.disabled { pointer-events: none; opacity: 0.7; }
+  .quiz-feedback { margin-top: 12px; padding: 12px; border-radius: 8px; font-size: 0.9rem; display: none; }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct-fb { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+  .quiz-feedback.wrong-fb { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+
+  .info-pill {
+    display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px;
+    background: #f5eef7; border: 1px solid var(--primary-lighter); border-radius: 10px;
+    font-size: 0.9rem; color: var(--primary-dark); margin: 4px; flex-wrap: wrap;
+  }
+  .info-pill.danger { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
+  .info-pill.warning { background: #fffbeb; border-color: #fde68a; color: #92400e; }
+
+  .highlight-list { list-style: none; }
+  .highlight-list li {
+    padding: 12px 16px; margin-bottom: 10px; background: #faf5fc; border-radius: 10px;
+    border-left: 3px solid var(--primary); font-size: 0.95rem;
+  }
+  .highlight-list li strong { color: var(--primary-dark); }
+
+  .norm-ref {
+    background: #f5eef7; padding: 16px; border-radius: 10px; margin-top: 16px;
+    font-size: 0.85rem; color: var(--text-light); border: 1px dashed var(--border);
+  }
+  .norm-ref strong { color: var(--dark); }
+
+  .progress-bar {
+    height: 6px; background: var(--border); border-radius: 3px; margin-bottom: 24px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; background: linear-gradient(90deg, var(--primary-dark), var(--primary), var(--primary-light));
+    border-radius: 3px; transition: width 0.5s ease;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    color: white; border: none; padding: 14px 28px; border-radius: 12px;
+    font-weight: 600; font-size: 1rem; cursor: pointer; transition: all 0.3s;
+    box-shadow: var(--shadow); display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+
+  .summary-stats {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin: 20px 0;
+  }
+  .stat-box {
+    background: var(--card); padding: 16px; border-radius: 12px; text-align: center;
+    box-shadow: var(--shadow); border: 1px solid var(--border);
+  }
+  .stat-box .number { font-size: 1.8rem; font-weight: 800; color: var(--primary); }
+  .stat-box .label { font-size: 0.8rem; color: var(--text-light); margin-top: 4px; }
+
+  .alert-box {
+    background: linear-gradient(135deg, #fef2f2, #fee2e2);
+    border: 1px solid #fecaca; border-radius: 12px; padding: 18px; margin: 16px 0;
+    display: flex; align-items: flex-start; gap: 12px;
+  }
+  .alert-box .icon { font-size: 1.5rem; flex-shrink: 0; }
+  .alert-box h4 { color: #991b1b; margin-bottom: 4px; }
+  .alert-box p { color: #7f1d1d; font-size: 0.9rem; }
+
+  .checklist { list-style: none; }
+  .checklist li {
+    padding: 10px 0; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist .check { color: var(--secondary); font-weight: 700; font-size: 1.1rem; }
+
+  .footer-note {
+    text-align: center; padding: 30px; color: var(--text-light); font-size: 0.85rem;
+    margin-top: 20px;
+  }
+
+  .scenario-card {
+    background: linear-gradient(135deg, #faf5fc, #f5eef7);
+    border: 1px solid var(--primary-lighter); border-radius: 14px; padding: 20px; margin-bottom: 14px;
+  }
+  .scenario-card h5 { color: var(--primary-darker); margin-bottom: 8px; font-size: 1rem; }
+  .scenario-card p { font-size: 0.92rem; color: var(--text); }
+  .scenario-verdict {
+    display: inline-block; margin-top: 10px; padding: 6px 14px; border-radius: 8px;
+    font-weight: 600; font-size: 0.85rem;
+  }
+  .scenario-verdict.at { background: #dcfce7; color: #166534; }
+  .scenario-verdict.noat { background: #fee2e2; color: #991b1b; }
+  .scenario-verdict.duda { background: #fef3c7; color: #92400e; }
+
+  .logo-footer {
+    width: 120px; height: auto; margin: 0 auto 10px; opacity: 0.7;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <div class="header-content">
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVwAAAC3CAYAAABe4ubZAAAACXBIWXMAAAsSAAALEgHS3X78AAAcYUlEQVR4nO2dTXbbxhKFb97J3HwrMN4KzKzA8ArMTDgVPOAwCLMCwysww2EwMDQMJqFWYGgFoVYQagWRVqA36GqxBQEgfht/9zuHxxYINhoN4KK6urr6h6enJxBCCOme//RdAUIImQsUXEIIsQQFlxBCLEHBJYQQS1BwCSHEEhRcQgixBAWXEEIsQcElhBBLUHAJIcQSFFxCCLEEBZcQQixBwSWEEEtQcAkhxBIUXEIIsQQFlxBCLEHBJYQQS1BwCSHEEhRcQgixBAWXEEIsQcElhBBLUHAJIcQSFFxCCLEEBZcQQixBwSWEEEtQcAkhxBIUXEIIsQQFlxBCLEHBJYQQS/zYdwVI94R+vASwAOACOAJ4AHDa7NenHqtFyOz44enpqe86kJYJ/dgBsIIS2I8Fu94DOACINvv1sfuaETJvKLgTIvRjD4AH4H2Nn98C2FJ4CekOCu4ECP14BWAH4G0LxX3Z7NdBC+UQQlJQcEeMuA4i1LNoi7je7Ndey2USMnsYpTBSxKo9on2xBYCr0I+jDsolZNZQcEdI6Mc7AH8BeNPhYa5CPw46LJ+Q2UGXwogI/XgB5au9snjYnziQRkg70MIdCSK2CeyKLaAEnhDSArRwR4Ahtu8q/vQOys97wnnCwxKAAxWnWzaq4cNmv04qHpsQkoIzzQZODbG9h4pciHJmkiXy7zb0YxfKgr1U9tb4HSGkJrRwB0xFsX0EsKsTQysRCZdcFf/d7NcPVcsmhJyhD3egVBTbOwDLuhMWJOb25sJuqzplE0LO0KUwQCqIbW2rNgMPys+b59ddQbkqCCE1ma1LQUTNhRpEcmWznkTwiPNgUwLgYKs7LZm9IhSL7SOU73XXZr0kF8O3vO83+/UPbR2LkDkyO8GVGVoeirNopXmEyqoVdJnSMPTjLYAA+RMaOhHaVB1OyLdyGa1ASANm41IQ6y1AvQQvb6AGla5CP76FErxDi3VbQglp3jTdzoXW4ADg15zvlmC0AiG1mbzgSuhThHYyaQFKFN+HfnwPJYJRXRGU5DMB8iMEbAqtJkG+4DqW6kDIJJms4IqPNkC+eDTlLYCvAL6GfnwN5ectZfXKS8BDvtDe4RxLazsUq2ga79JaLSwivZ8V1PnpF/Md1ESRBKpNEobFkaZM0ocrluMB1WdmNeXSpAP9IthmfHWCWvYm6ahupQn9+AHZfuTbzX7tWq5OZ4gr54ByvZ9JnTvph8lZuPIQJeg2k1YebwF8BvBZfL0RUhEO8v+g6YEMq+wjgMfNfr1oWqZBV2kfB4P0Mr73XQ8yLyYluD2LbZr38vkW+vENlCVVO7zMCGNbycc8x7YTzJyQLbiTEGFpy9YGPQkpy2QE13iIhiC2aT7K55tYvgkkzjcv9aFYYAuc44TzxO66gyVxTjnb71s+Tl+kX1iEWGEygot2IxG6RFu+AIDQj5uUZXv9sZPFY3WJm7NdD1Ymm/36KD0mF5zWTFpiEoIrkxmqTGQYO49QK+xGHZU/9dF4J2PbHQA35W8/QvVEdtKDIqQRkxBcNPNh6llkJ5xzxmoc+eiu/RB8mHcAvI5XYcgreypC7GRsK/SvMySMtMHoBVdG6+u4Eu6hpupGFY+nB6368AP+DlXnrh/+vHjbqSy1k3W/TOXcyIAZveAiO6b1EtdQXfLKwiWTGw6AVfF9hLJqbY2s53WfpyxKtGBJ54xacGVQo+rkhhvJ/9oYS+Jry6otQ9J3BQgZM6MWXOSPNufxCDWltnVS4utCCa+L+rPdrtFxdrICnIxtdwMRfUJGy9gFt2q4jhVLUabnJsCLCQsuLg+86bCkQ09Cq3Eytk3ZnUCIFcYuuFWTqURdVKIIEfhn6xd4doUsUvsldmtWSFa7JrYrQcjUGK3gSoKaKr7Sm6F0iTsO6WpEQbtyKiwhDRmt4KJ6btakgzpMkSzrttLLSix4ne7QwWs/dm9LGPWJkXDIxfmldg/1MouavojFfaXbXX/SL08z7eRhyC//KTLa9IyhHwdQmbnKwuVhSpCzZPrFtjPSTnqoFxd9A5VoPfM4Odf7YsrE0I/busFftUFexrH02m8SwbLD5Xb5VGf2oNRji3qzLXVK0dwk9zltyOepBmO2cKvCN3k53NTft0UPliG0WzQLh/sI4KMk99lOxfLKeYFlcV9jEo4LleqzyQxInVJ0G/pxsNmv2848Rwz+03cFGuBU2XkOXdamiCsgbYUFF/Y/Qj2wbcUevwfwtyyoOWoqiC1QMVwx9OMdlHXd1nTzN1CrlyTixycdMBfBveuqEhPDS/19U9DF9wD8je4ytH0VwRolFcU2t50zyl2EfnxEd0tHvQegM6WRlpmLS4HWbTk84/+5k0REbL9dKEsnBUogiYF0L8MIi3OhBnnyJodchX6MhjMDv2Rsy/L9X6M4/WTRdy8Q6zxLbG+hfLnaXbKEamOvZLlLKH/rpck0dzi3/YN2z4j7Rw9kusifFfkGQBL6sTsV185QGPOgWYLy3SmuR3WBDBH9OSt3QwmxvYdyQ5SOPCixerEWw8qDZjnHa2UQqMIyPY1zYYhYHlHco6g8O1GuZ5BT7iOUMP+d8R0HzWowZgv3iPKCe+qwHlMhMP7/W02xrZUQXQTCE79khNcW3BXG6xZ6hMqzW9tSFLFNkC+2tVN2ykBdlBMF8gY9TBaaMmP24VZxE5y6qsQUEEtNP8zXWSPVYoXmjWA/Qlk8QZN6bPbr42a/XkJZamlsr8DcFm10y3fIP//rzX69bHoMuXY/QV1Lk7G2+yAZs+CS9ojk398L/KURsv192oJL2qqM1CFLdMfGlxYmM7gocLW0lfkOeJ4B6eK16JKWGLPgJn1XYAoYCdw/bfbrzFAs2SfPfdPJwMoERPcR7aymHOVsb1VsNRTdbhmz4DLyoCHGpIWfLgTdBznbf+t4FHuL8fpuG09XLljN5B71Eu+XQq5p0FX5c2a0gstwldYotFBlWmrWQ3/b9awkEayxToBoo22CnO1e1xN55NrednmMOTJawRXGav0Mgs1+/VDiwfVytgft1iYb8Q3f2DhWizy24LvNmvUHXJhq3TKBpePMhrEL7qnvCsyArIQoNh96oB1r0SZJC2V4OduDFsouhVxjWrktMnbBLWtFuF1WYqrICHkWkcVq6Af/3uYxG9KGuytrau19D5MNIsvHmzRzEVxSDzdnex/JyMeUAL0N/2pWVEgfbZD0cMzJMnbBPfVdgYnjZGzrazHJMb1cm/pvnZyvkibl1kFmAY6pdzFoRi24FQYmnC7rMWGcjG0ny3Xo+7h94ORsP1mswxCOOzlGLbhCGad+VykE50hfluapp+MOBoZCjp8pCG6pm1CC/MlI6XnZ+KpMTRiTviswFaYguEnJ/ZhQecSM6YU5wdVF+Oy0xBQEl35cu/T18M3+oe9xFYbRvOyGzugFt8IoqtNtTSZJ1svMsV0JYU4PfZ4R4dishMGc2r5TRi+4QlJin9lbSDU4ZWx711P33u3hmL1Q4JJwbdYDeHblMCduS0xFcMsEhFNwq5Nnaa2s1kLh9nDMPsmKvmG7j5ypCG5SYp+3Yxp4GQIyjTQrL6rVDF4yEWBuVlaWEfG2YLp1V/Qh8pNlEoIrXbAy8bi0cquT9eC/s/zgBxaPNRTyem2BrQrIi67sUu+kBJMQXKGMW8HtuhITJMrZHtg4+FwfehkMzko/+t7iyy6wdJzZQMElhRRk6nof+rEN10Jk4RhDJS8tZdS1e+zCWmqkJpMR3AKLwKTssurkJV7O9q9dxoaKoM/2msmyR1n39Ft0mCNYxHxM2dlGw499V6BlIgBfi3YI/bjVFWabIN1lFy/jKx+gogOOQ5mxtNmvk9CPb5Etfom0aavTWWU9r8JrORO2AL5nbL8K/VgvttkaIrYJsldoJg2ZjIUrjMKtEPqxF/rxCcA/AL4B+Gx8vkI9YP+GfnwM/XhbkK7PJitkRyy8gRLd1ixdsWy/tVXemBHj4Pecr69CP47aOpZcwwTziwixxqQEt6Rbwe2+JtmEfrwM/fgIJSZlMpi9gxLgf0I/7txvV4RY23khQm8A/B36cdDkGKEfO6EfJ8i2bGe7bLcsX593X1/Ji7nRC09ecglei+1s270LJiW4wiXfVi8+wRashysApx7n02tr61PBLp9DPz6JO6A0IrQ7KIs/6/rcYnzrmrWNi3zRfQf1wouq9oaM3tZXZLsR3CrlkWKm5sMFlFuhsDsa+vFqs19bGxRo0S+mu++t+0zLstmvo9CPgfw2fgvgm1i7B6jzPqbTK8oo+BLqgc5aqFJzC2VZj3W59FbY7NcP0mYJ8l/aV1AW743sl6TvExFk3e4r5Pe0HgGsNvv1Ua43aYHJCa7cmNcoDmlxYXcU9oD2BiG06Dp9DaoZortD/nm9BfCrfFDzob3Wg0J86F+I7gHFPbWP8qnbbo8AenupT5kpuhSAy7Gb1qYrygPSthvjDXpOCi0hSy4u+8zr8AjgU9sj8FNgs18/bPZrF8CXjg5xA8Ch2HbDJAW3xLLaby36QoOOyn3X5gh1HTb79XGzXy+hHv62BleuoR74qKXyJslmvw4A/IRyU9rLcA/g581+vRpKOOIUmaTgCpcGWbyuKyD+si4H6a4szfYqRB5+B8BvqGfxPkKFPv1vs197fODLIS88F8AHqBdVnZfeLVRvwrE5rjFXfnh6euq7Dp0gA1Un5PsYHzf7ddfTI7eoFrx/jbOrwEN5sf40JItQXjQrqMEZRzbrc7mHui56gkcylIkoUyD0Y93urmxycB4Y09bwEee2P1ms3uyZrOACgHS5iwbPfu7yrS4xpWVE8w5qRPiU+r2H8hMAPlC4CBk2U3YpAJf9p17Hxy8jtjeb/XqZZWmI1VoU92py6DNGlxBymUkLrohY0aDCx66mzZZMoXePC6IvoltmRLr1KbaEkHaZXBxuBgGyk3+Y33sdHNctsc+uzADRZr8OREiLJggAA5gYQcaBGBqOscmF8q2f5O8T/bvtM2kfruaCL/URKgyp1ZHxEv5jQI3Kn0qWp2erlZkazMB18oyRlc6FGlCrMr38FucBNkYxNGQuguui2Mr9IqFNbR4zQbEP905iWKuUqfMxlJm1RtGdMXLPr1A8fbcqj1Cz3Ha8r+oxC8EFSglgaWuzpeM9T1utWK6H8pELFN0ZIb2gLZSLrC2RzeMWQMDImGpMetAsRdDw+7ZJ6vxIBtGuS+6ufbpceXXChH68kGRBJ6icyl2LLaCMie+hHyc9rCQ8WmYjuPImLopYuLJ84yR1fyiWcdkZXW8A/NU0Vy0ZJimh7WOVBi28uz7zNY+F2Qiu4F34vs2cq0X+2ccW3Bd5KzDk8VmsEafhcckAMJLZ9yW0aX4FcKS1W8ysBFdELm+5EkAlhAlaOlzRQ9DYpyrnUtVV8B7qoeg9/wKpj9yjf2N4S+G8hbJ2g74rMlRmM2imKZFjAQB+ajrQFPpxUcO2FhVRI1+D5h5q0CNqox5lkfbXc/0d+SxRzkq7g8rBcMJ5oc2k/VoOE4lSiVBfaO+hXFknlIi5NazVBc5hZWWPfQOAiYhSzE5wgVIidQc1ul/rZpFu+z8Fu7Saw6FkzG8e91ADhocOYpG1uJqftq2yRygROaCDcxgKYjV+rvHTOyiRPrQRhWMkJvJw+Vo2eo6myCwFFwDE/1V0w9QK25KyXRTH/bYdglZlUkQRemmWSpajWF7aCjJF1rZvUceJBlOZJSX30g7Vr+01gKjLHoCIr4fiMLQ7KEuXoYmYt+C6KBZFoGbaw0vWyGa//qFqmSWOWcZVUgfdjTdZYHj+wzQ3UAH6Sd8VqYOI2Q6Xp3Ob9PbCkdDDLbJjzxkPLsxWcIFSXfFaN8qFcivPMKtw3Coz0ebCLZSFdeq7ImUQoQ1QzUX0CCXOpXJzdIkYMgFeC28nU+jHxtwF14EafCkSqMo3yoVZZreSpb8TKs5EmxPXGLCrQV6WW4xUaNPkCO/sfbqzFlyg9GBEpRvlQoRCp4Irx/dA0c3jGsB2KA+9XCsP1ZZiGqzQphFXww5nH29nPbwxMHvBBYDQj0+4PB2ylOiKpfJ3wS6dC67UwwNFN49eB9fkHvHkU8X9MxqhNZHxhQBqcgQA/L7Zr2cZC07BRekBNKCE6JYQutrRD1WR8zpguD5dvb4Z8Hqqs4NzvtYuIx46H80HXohs3exdXzAyoU0j92MEdf6dLm81VCi4QujHB5QbES4U3RIDca2ngixC/NQH9B9VoONlE9ScsCAPrIPzxIk2z+ke51jepGlhIrCu8an7whi077kqYu1GkNy8UzmvslBwhYphVfdQiz6+iF4oWYZVwdU0CJxvyg2UBdm6NSPtvYJ6eFdo1wrWibcf8NL6Pm726wcj9hg4xx478qnij81jUkKbRu5Hx1ZvbyhQcA3Ewf9XhZ+86OaVnPHVi+ACz1bXDu0IQh7aP5rA8swvuX76M1Q3yiVuoAb1Tn1XpGtCP17OLTaXgpuigmvB5BbKsinjm+t9OfOCWMk6mK6CZAgPkGH5BrCTG7YNmNB7BlBwU3Q4Y0vTu+Bqag7k3EESx2AgAltEyy+XLqDQzggKbgY1XAtVGIzgmsjgms6BkOYElVEqsVilVhmg8PaSrY30CwU3h9CPdzjHDbbJf8cc2jN2MgLxbUOhnTEU3AJKZBSrTBeJa0g1MgLxbXAHNcAaWTwmGRg/9l2BgeOiXX/ufUvlkAZID2MrA6R1Uh+WRcf2RkP3dRM70MK9QImpulWwMq2XVEPcDB6qR6ekGVzEBhkWFNwStJiXwNq0XlIdcTW4OM9kK8r7q/ME64iNIwWWXIKCW5KWRPe3zX69a6E6hJARMqtVe5sggx2fGhYzu2QdhJAzFNwKNBTdmzlM1ySE5EPBrYiI7geoAZKy/A41KEMImTH04dbEiOX0kB02pkOCdrRsCSEABbcVZNqoyYkiSwhJQ8ElhBBL0IdLCCGWoOASQoglKLiEEGKJWQtuxmBX1j4LyadAKlCmbcn4CP3YCf3YlSgdUpHJCa7cDMfQj5/kcwr9+KBvkNCPA/m4AL6XEIYtXi/h3RmhH49+FNNo24svKn09GhwrmYq4N7n2Re0guZ3zfhdVPNQRatVdGiE1mJTgStan71ApFT8A+C9UnOwCwFFWNdAcUW71hQgqkQkpj25bJnMZBr9mibHkB7m06Km5/xLAm81+7Yx59Y8+mVo+3AivM3IlANzQj73Nfn0K/RiAyokqlpUrNx6ghHkFJdg7EYwFlGhvgRfrgC2hskUdzKTS8v0WalHJg+yDvMTTcmxPHzP13UK2Ofr8CsrREzG05ZHo1YGNchZyXolYPQeol4kLJZIvJmnIuQTyuwf929T3ui2e62e2rXF8nQJRn+cuK1Wl+TupU2CsiqzP77DZr6PQjxP5exf68XNyb2nTla6zfLZy7ACqPXdZolHU5hfuk3Q5+nx1u+pzcHE2Ag5S/2PqHtplbEugVvM9psoH1H2fiWFkBHhtOAT6nI36LaDaypW6H6CugauPo+sC1U6R1COQ+8o8vwQX7v+5MRkLVy70G8hNlCbnguv1rRyom8fFWZh0opkFRFDkJk9k/0i++6YfRBGEBOcbVd+UTkZ9F6EfP0A9uFpok9RuR+NYByhhyTw/+X4l/0YAPKMrGUhdj1InyDnp30Sy7R85R/2g6vrsoMTl2QUjYmu2BaDaQh/zvT5P+a15nAQZa4vJuXnyvb4eiXznGefnSf0CKTsy9ss7lhZJV8oIUj0eGPsvkd3mjtRLX7MHZLib5Jx1nZY4v3gi+d1RPgHUqhPpeiwztulz0IIXSP1OKO7iO1CpJJemlSvtuYCaEanvbwfAv7Jd37cHnK9VJP8Gctz3kHvceImb55d7/8+VqVm49w1meD0A8ORNfwj9+CHDBxlA3VyB/B3JPvqYHgDXsEIi47s0KygrdCV/H0I/3gL4Kr919X6G9XGEuukDsyBjAUjH2DfB+aZfyK7PlpZw2uzXS6Ock+yvhThdvwe8FMSD0ZvQbWGWr9vELCcSAfuc0SZbOd/EOOYpdR3MHsVJ6nSU3stKzsmss4dzWs0FMnolxvlroXMutPnKuE9WoR+7GdbyG6nXTsrRgm+WHQH4J6MdcpFr7QBYpsrJS5Kvr8kOL61cD+eXmiPbAgBfjPv7IGVrt8MRAPS5Sm9xK2K7wOv7fwcl4ESYjIUrLC7vksshJUbHjPLeIdV92+zXR+lCuwAezO6lfihzjudlfGeW7ep6yYBIArEsMiyzVca+EZTfeolzNzpJidfO+D9EHN5L+SsAji5PynRxbpP3SAm/tMUpo25Ralv67xc9lNQxTzhb40c5/1X694KH1xan2cYRlPiccgaYVvJ9UZsf0y+tdCHy/ScpR7exl/6ttNVtzrlk8fzCS5VzhLJis1jg/IJchmpQ2YW4YnDuRQHykk39Pu/+1cfW+6+QSsIudbwpPKOZMSULV79Vt1lJvkM/di5Yv2nLLIt7qJszq5wjslcHyHsJJHjdDTT3PUEJuKs3iBWxzDgPbXm45sbQj1fGA7AUy/KA8wPmpPZfQnoJYu3C9IenLNhbqX+6LmlO6eMgu010Pb2UH9m0Hj0R279CP/5fRjskGcd6RgRgJT2J76Efp1dQPsl+rvk7qYP2/ycogeFj1j2XBGd3jklWW2QeY7Nf64HfrBeOk1MVF2JMiPgHsn0n2x5g+P0z6lPWiEmQ7c5rYgRNjslYuHphQABf5QYH8OwrDXC29poQQPn0HCnbky6vdkVch34checQtC3y18mKoEaPPdnXgWFNSJfXCVXY1MIYzHn1MhFBegj9eKf3NfyFCP14K1bNAS8fAL1dHz/C2frcQYmTl/pet20E5R7Qv9dtEaSqt4OyWtPHSZ/DA4BrKdPR9YYSLEe67toCe0T2gxzhdZsm+kvd/TeO/6IMafOF2eZmO5ZFfreFWNNS9hHqGpn3R4Tsl/QD1LVxZL8dZAHSzX59kDo+uyqknLyFThc4v8x2UOKqrVvgZU8uwtk1pHsdpc5dXn6njPv/la9+zkxGcIEXCcK3ocTgQvmQXBi+pQbobu0/oYqZ/CbbtFAGOHdZn6C6f5ldKrlBP0BZbU9Qvrx0920rn3/l4yA/RM2Dsnz0vkucLaElVLhcgpdWSAD1gD3JdwfIAyZtFUENhOn6HTf79Va+j+T770ZbHPHaTXGUcwiMcqKcc9hBPfy6fQOcLV4HwF9yboesayminW7TxNhFt8O/UL7KU0Ydstrcy6lvHo7UXV8HfV319dD3h4MMV4D00CKc22GFl1atCyW6TzgPcuW5FN7hHCnwgHOEiLbsHyCiKGKuX3JPeHlvl8FLnd8KKhc00Tw9PU3y88cvfy7/+OVPt8vyC75b/PHLn4sKZRXuW3SsnPN+VV66Tn/88mei2+ePX/50mhy/bP0uHcfcL2/fKmXUbe+idqx4j+SdQ+n7o+l5tF33kr+tdP/P6cP0jDNFDwgxgJ0Qe0xp0IxUY4vLA16EkBahhUsIIZaY1KAZIYQMGQouIYRYgoJLCCGWoOASQoglKLiEEGIJCi4hhFiCgksIIZag4BJCiCUouIQQYgkKLiGEWIKCSwghlqDgEkKIJSi4hBBiCQouIYRYgoJLCCGWoOASQoglKLiEEGIJCi4hhFiCgksIIZag4BJCiCUouIQQYgkKLiGEWIKCSwghlqDgEkKIJSi4hBBiif8Dj82JHGmDSPUAAAAASUVORK5CYII=" alt="Logo MAFRA" class="header-logo">
+      <h1>Capacitacion en Accidente de Trabajo</h1>
+      <p>Clinica Odontologica <strong>MAFRA</strong> &mdash; Normativa SST Colombia</p>
+      <div class="badge">&#128203; Decreto 1072 de 2015 | Ley 1562 de 2012 | Resolucion 1401 de 2007</div>
+    </div>
+  </div>
+
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width: 0%"></div></div>
+
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showSection(0)"><span class="icon">&#128214;</span>Definicion</button>
+    <button class="nav-tab" onclick="showSection(1)"><span class="icon">&#9989;&#10060;</span>Ejemplos</button>
+    <button class="nav-tab" onclick="showSection(2)"><span class="icon">&#129463;</span>Contexto Dental</button>
+    <button class="nav-tab" onclick="showSection(3)"><span class="icon">&#128221;</span>Paso a Paso</button>
+    <button class="nav-tab" onclick="showSection(4)"><span class="icon">&#129513;</span>Quiz</button>
+    <button class="nav-tab" onclick="showSection(5)"><span class="icon">&#128218;</span>Resumen</button>
+  </div>
+
+  <!-- SECCION 1: DEFINICION -->
+  <div class="section active" id="sec0">
+    <div class="card">
+      <div class="card-title"><span class="emoji">&#128214;</span>Que es un Accidente de Trabajo segun la normativa colombiana?</div>
+      <div class="definition-box">
+        <h3>Definicion Legal (Ley 1562 de 2012, Art. 3)</h3>
+        <p>"Es <strong>accidente de trabajo</strong> todo suceso repentino que sobrevenga <strong>por causa o con ocasion del trabajo</strong>, y que produzca en el trabajador una lesion organica, una perturbacion funcional o psiquiatrica, una invalidez o la muerte."</p>
+      </div>
+      <p style="margin-bottom: 16px; color: var(--text);">Ademas, la ley considera accidente de trabajo tambien cuando ocurre:</p>
+      <ul class="highlight-list">
+        <li><strong>Durante la ejecucion de ordenes del empleador</strong>, aun fuera del lugar y horas de trabajo.</li>
+        <li><strong>Durante el traslado</strong> de los trabajadores cuando el transporte lo suministre el empleador.</li>
+        <li><strong>Durante actividades recreativas, deportivas o culturales</strong> cuando se actue por cuenta del empleador.</li>
+        <li><strong>Durante el ejercicio de la funcion sindical</strong>, aunque el trabajador este en permiso sindical.</li>
+      </ul>
+      <div class="norm-ref">
+        <strong>&#128218; Normativa aplicable:</strong> Decreto 1072 de 2015 (Sector Trabajo), Capitulo 6 &mdash; SG-SST | Ley 1562 de 2012 | Resolucion 1401 de 2007 | Resolucion 0312 de 2019 (Estandares Minimos)
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="emoji">&#128269;</span>Diferencia clave: Accidente de Trabajo vs. Incidente</div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div style="background: #f0fdf4; padding: 18px; border-radius: 12px; border: 2px solid #86efac;">
+          <h4 style="color: #166534; margin-bottom: 8px;">&#128680; Accidente de Trabajo</h4>
+          <p style="font-size: 0.9rem; color: #374151;">Evento repentino que <strong>si produce lesion</strong> organica, perturbacion funcional, invalidez o muerte. <strong>Debe reportarse a la ARL</strong> en maximo 2 dias habiles.</p>
+        </div>
+        <div style="background: #fffbeb; padding: 18px; border-radius: 12px; border: 2px solid #fde68a;">
+          <h4 style="color: #92400e; margin-bottom: 8px;">&#9888;&#65039; Incidente</h4>
+          <p style="font-size: 0.9rem; color: #374151;">Evento que <strong>hubiera podido causar</strong> un accidente pero no genero lesion. <strong>Tambien debe investigarse</strong> internamente para prevenir futuros accidentes.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECCION 2: EJEMPLOS -->
+  <div class="section" id="sec1">
+    <div class="card">
+      <div class="card-title"><span class="emoji">&#9989;</span>Ejemplos de SI es Accidente de Trabajo</div>
+      <div class="example-grid">
+        <div class="example-card yes">
+          <div class="label">&#9989; SI ES AT</div>
+          <h4>Pinchazo con aguja contaminada</h4>
+          <p>La higienista dental se pincha con una aguja usada en un paciente mientras realiza el procedimiento de limpieza en el consultorio.</p>
+        </div>
+        <div class="example-card yes">
+          <div class="label">&#9989; SI ES AT</div>
+          <h4>Caida en el area de esterilizacion</h4>
+          <p>El auxiliar de odontologia resbala con agua derramada en el piso del area de esterilizacion y sufre una fractura de muneca.</p>
+        </div>
+        <div class="example-card yes">
+          <div class="label">&#9989; SI ES AT</div>
+          <h4>Quemadura con autoclave</h4>
+          <p>La asistente dental sufre una quemadura de segundo grado al manipular el autoclave sin guantes termicos durante el proceso de esterilizacion.</p>
+        </div>
+        <div class="example-card yes">
+          <div class="label">&#9989; SI ES AT</div>
+          <h4>Lesion por postura prolongada</h4>
+          <p>El odontologo desarrolla una hernia discal lumbar diagnosticada por medico ocupacional como consecuencia de posturas ergonomicas inadecuadas durante la jornada laboral.</p>
+        </div>
+        <div class="example-card yes">
+          <div class="label">&#9989; SI ES AT</div>
+          <h4>Corte con instrumental rotatorio</h4>
+          <p>El odontologo se corta con la fresa dental mientras realiza un procedimiento en un paciente, produciendo una laceracion en el dedo indice.</p>
+        </div>
+        <div class="example-card yes">
+          <div class="label">&#9989; SI ES AT</div>
+          <h4>Accidente en actividad recreativa de la clinica</h4>
+          <p>Durante la jornada de integracion organizada por MAFRA, un empleado sufre una lesion jugando futbol en el evento deportivo de la empresa.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="emoji">&#10060;</span>Ejemplos de NO es Accidente de Trabajo</div>
+      <div class="example-grid">
+        <div class="example-card no">
+          <div class="label">&#10060; NO ES AT</div>
+          <h4>Caida en el supermercado (fuera de jornada)</h4>
+          <p>La recepcionista de MAFRA se cae en un supermercado el sabado en la noche, fuera de su horario laboral y sin relacion con funciones de la clinica.</p>
+        </div>
+        <div class="example-card no">
+          <div class="label">&#10060; NO ES AT</div>
+          <h4>Accidente en el trayecto casa-trabajo (sin transporte empresa)</h4>
+          <p>El odontologo sufre un accidente de transito en su moto particular camino a la clinica. Como MAFRA no suministra el transporte, NO es AT.</p>
+        </div>
+        <div class="example-card no">
+          <div class="label">&#10060; NO ES AT</div>
+          <h4>Lesion deportiva en actividad personal</h4>
+          <p>El auxiliar dental se lesiona jugando futbol los domingos con amigos. No es actividad organizada ni por cuenta de MAFRA.</p>
+        </div>
+        <div class="example-card no">
+          <div class="label">&#10060; NO ES AT</div>
+          <h4>Enfermedad comun no relacionada con el trabajo</h4>
+          <p>La asistente dental contrae influenza comunitaria. Aunque trabaja en un entorno de salud, la influenza no esta calificada como enfermedad laboral para su cargo.</p>
+        </div>
+        <div class="example-card no">
+          <div class="label">&#10060; NO ES AT</div>
+          <h4>Lesion por acto doloso del trabajador</h4>
+          <p>Un empleado de MAFRA se autolesiona intencionalmente en las instalaciones de la clinica. No es AT porque no es un evento fortuito.</p>
+        </div>
+        <div class="example-card no">
+          <div class="label">&#10060; NO ES AT</div>
+          <h4>Accidente bajo efectos del alcohol</h4>
+          <p>El odontologo sufre un accidente en la clinica pero se determina que estaba bajo efectos del alcohol. Se considera falta grave, no AT.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="emoji">&#129300;</span>Casos de Duda &mdash; AT o no?</div>
+      <div class="scenario-card">
+        <h5>&#129463; Escenario 1: El odontologo se corta en casa afilando un instrumento</h5>
+        <p>El odontologo lleva instrumental a su casa para afilarlo y se corta. Es AT?</p>
+        <span class="scenario-verdict noat">&#10060; NO ES AT &mdash; No esta bajo ordenes del empleador ni en el lugar de trabajo.</span>
+      </div>
+      <div class="scenario-card">
+        <h5>&#129463; Escenario 2: La asistente se cae en el bano de la clinica durante el almuerzo</h5>
+        <p>La asistente dental resbala en el bano de MAFRA durante su hora de almuerzo. Es AT?</p>
+        <span class="scenario-verdict at">&#9989; SI ES AT &mdash; El bano es area de trabajo y el descanso es parte de la jornada laboral.</span>
+      </div>
+      <div class="scenario-card">
+        <h5>&#129463; Escenario 3: El recepcionista sufre un accidente en el transporte que MAFRA contrato</h5>
+        <p>MAFRA contrato un bus para llevar al equipo a una capacitacion externa y ocurre un accidente. Es AT?</p>
+        <span class="scenario-verdict at">&#9989; SI ES AT &mdash; El transporte es suministrado por el empleador.</span>
+      </div>
+      <div class="scenario-card">
+        <h5>&#129463; Escenario 4: El odontologo desarrolla tendinitis por anos de trabajo</h5>
+        <p>Despues de 10 anos de practica odontologica, el odontologo es diagnosticado con tendinitis de Quervain. Es AT?</p>
+        <span class="scenario-verdict duda">&#9888;&#65039; NO ES AT &mdash; Es una ENFERMEDAD LABORAL (acumulativa), no un evento repentino. Se reporta como FUREP, no FURAT.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECCION 3: CONTEXTO DENTAL -->
+  <div class="section" id="sec2">
+    <div class="card">
+      <div class="card-title"><span class="emoji">&#129463;</span>Riesgos Especificos en Clinica Odontologica MAFRA</div>
+      <p style="margin-bottom: 16px; color: var(--text);">En MAFRA, como clinica odontologica, los trabajadores estan expuestos a riesgos particulares que pueden generar accidentes de trabajo:</p>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px;">
+        <div style="background: #fef2f2; padding: 16px; border-radius: 12px; border-left: 4px solid #ef4444;">
+          <h4 style="color: #991b1b; font-size: 0.95rem;">&#129516; Riesgo Biologico</h4>
+          <p style="font-size: 0.85rem; color: #7f1d1d; margin-top: 6px;">Pinchazos con agujas contaminadas, salpicaduras de sangre/saliva, exposicion a patogenos (VHB, VIH, tuberculosis).</p>
+        </div>
+        <div style="background: #fffbeb; padding: 16px; border-radius: 12px; border-left: 4px solid #f59e0b;">
+          <h4 style="color: #92400e; font-size: 0.95rem;">&#9889; Riesgo Electrico</h4>
+          <p style="font-size: 0.85rem; color: #78350f; margin-top: 6px;">Equipos electricos (autoclaves, rayos X, lamparas), cables expuestos, contacto con liquidos.</p>
+        </div>
+        <div style="background: #eff6ff; padding: 16px; border-radius: 12px; border-left: 4px solid #3b82f6;">
+          <h4 style="color: #1e40af; font-size: 0.95rem;">&#129462; Riesgo Ergonomico</h4>
+          <p style="font-size: 0.85rem; color: #1e3a8a; margin-top: 6px;">Posturas forzadas, sindrome del tunel carpiano, dolor lumbar, tendinitis de Quervain, epicondilitis.</p>
+        </div>
+        <div style="background: #f0fdf4; padding: 16px; border-radius: 12px; border-left: 4px solid #22c55e;">
+          <h4 style="color: #166534; font-size: 0.95rem;">&#128293; Riesgo Termico/Quimico</h4>
+          <p style="font-size: 0.85rem; color: #14532d; margin-top: 6px;">Quemaduras con autoclaves, productos de limpieza, materiales de polimerizacion, vapores toxicos.</p>
+        </div>
+      </div>
+
+      <div class="alert-box">
+        <span class="icon">&#128161;</span>
+        <div>
+          <h4>Dato importante para MAFRA</h4>
+          <p>Segun estudios, un dentista puede sufrir entre <strong>2 y 3 pinchazos al ano</strong>, especialmente al inicio de su carrera. La vacunacion contra Hepatitis B y el uso de barreras de proteccion son obligatorios.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="emoji">&#128737;&#65039;</span>Medidas Preventivas en MAFRA</div>
+      <ul class="checklist">
+        <li><span class="check">&#10003;</span> Uso obligatorio de EPP: gafas, guantes, bata, mascarilla, cofia.</li>
+        <li><span class="check">&#10003;</span> Descarte de agujas en contenedores de seguridad (nunca recapping).</li>
+        <li><span class="check">&#10003;</span> Mantenimiento preventivo de autoclaves y equipos electricos.</li>
+        <li><span class="check">&#10003;</span> Senalizacion de pisos mojados y areas de riesgo.</li>
+        <li><span class="check">&#10003;</span> Pausas activas y ejercicios de estiramiento para el personal.</li>
+        <li><span class="check">&#10003;</span> Sillas ergonomicas y ajuste correcto de la altura del sillon dental.</li>
+        <li><span class="check">&#10003;</span> Capacitacion continua en bioseguridad y manejo de emergencias.</li>
+        <li><span class="check">&#10003;</span> Botiquin de primeros auxilios y kit de exposicion a fluidos corporales.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SECCION 4: PASO A PASO -->
+  <div class="section" id="sec3">
+    <div class="card">
+      <div class="card-title"><span class="emoji">&#128221;</span>Paso a Paso: Que hacer ante un Accidente de Trabajo en MAFRA?</div>
+      <p style="margin-bottom: 20px; color: var(--text);">Sigue este protocolo inmediatamente cuando ocurra un accidente en la clinica:</p>
+
+      <div class="step-timeline">
+        <div class="step" data-num="1">
+          <h4>&#128680; Atencion Inmediata y Primeros Auxilios</h4>
+          <p>Evalua la gravedad del accidentado. Si es grave, llama a una ambulancia ANTES de cualquier otro paso. Si es leve, aplica primeros auxilios con el botiquin de la clinica. <strong>La vida del trabajador es lo primero.</strong></p>
+          <span class="time-badge urgent">&#9201; INMEDIATO</span>
+        </div>
+        <div class="step" data-num="2">
+          <h4>&#128227; Notificacion Interna</h4>
+          <p>Informa al <strong>jefe inmediato</strong>, al <strong>Responsable de SST</strong> de MAFRA y, si existe, al <strong>COPASST o Vigia de SST</strong>. Activa el protocolo interno de la clinica.</p>
+          <span class="time-badge">&#9201; INMEDIATO</span>
+        </div>
+        <div class="step" data-num="3">
+          <h4>&#127973; Traslado al Centro Asistencial</h4>
+          <p>Contacta a la <strong>ARL</strong> (Administradora de Riesgos Laborales) de MAFRA para saber a que IPS debe ser trasladado el trabajador. Si es grave, ve al centro medico mas cercano y luego informa a la ARL.</p>
+          <span class="time-badge">&#9201; INMEDIATO</span>
+        </div>
+        <div class="step" data-num="4">
+          <h4>&#128196; Reporte a la ARL (FURAT)</h4>
+          <p>El empleador (MAFRA) debe reportar el accidente a la ARL mediante el <strong>FURAT</strong> (Formato Unico de Registro de Accidente de Trabajo) en maximo <strong>2 dias habiles</strong> desde el dia siguiente al accidente.</p>
+          <span class="time-badge urgent">&#9201; MAXIMO 2 DIAS HABILES</span>
+        </div>
+        <div class="step" data-num="5">
+          <h4>&#128269; Conformacion del Equipo Investigador</h4>
+          <p>Se conforma el equipo segun la Resolucion 1401 de 2007: Responsable de SST, Jefe inmediato, un representante del COPASST y el trabajador involucrado. Para accidentes graves, incluir personal directivo.</p>
+          <span class="time-badge">&#9201; Dentro de los 15 dias calendario</span>
+        </div>
+        <div class="step" data-num="6">
+          <h4>&#128248; Recopilacion de Evidencias</h4>
+          <p>Visita el lugar del accidente, toma fotografias, revisa videos de camaras de seguridad, entrevista al accidentado y testigos, revisa registros de capacitaciones, entrega de EPP y procedimientos de trabajo.</p>
+        </div>
+        <div class="step" data-num="7">
+          <h4>&#129504; Analisis de Causas (Metodologia 5 Porques o Arbol de Causas)</h4>
+          <p>Determina las <strong>causas inmediatas</strong> (actos y condiciones subestandar) y las <strong>causas basicas</strong> (factores personales y del trabajo). Documenta todo en el formato de investigacion.</p>
+        </div>
+        <div class="step" data-num="8">
+          <h4>&#9989; Definicion de Acciones Correctivas y Preventivas</h4>
+          <p>Establece un <strong>plan de accion</strong> con responsables, fechas de ejecucion y recursos. Las acciones deben eliminar las causas raiz identificadas.</p>
+        </div>
+        <div class="step" data-num="9">
+          <h4>&#128227; Socializacion y Lecciones Aprendidas</h4>
+          <p>Socializa los resultados de la investigacion a todo el personal de MAFRA. Publica la "leccion aprendida" en los 15 dias siguientes para prevenir eventos similares.</p>
+        </div>
+        <div class="step" data-num="10">
+          <h4>&#128260; Seguimiento y Cierre</h4>
+          <p>El grupo de SST realiza seguimiento a las acciones definidas. Se cierra la investigacion cuando el 100% de las acciones se han ejecutado y verificado.</p>
+        </div>
+      </div>
+
+      <div class="alert-box" style="margin-top: 24px;">
+        <span class="icon">&#9888;&#65039;</span>
+        <div>
+          <h4>Importante! Consecuencias de no reportar</h4>
+          <p>Si MAFRA no reporta oportunamente el accidente a la ARL, puede ser sancionada con multas de hasta <strong>200 salarios minimos mensuales</strong> (Decreto 1295 de 1994, Art. 91). Ademas, se retrasa la atencion medica y las prestaciones del trabajador.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="emoji">&#128203;</span>Documentos Clave para el Reporte</div>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+        <span class="info-pill">&#128196; Formato FURAT diligenciado</span>
+        <span class="info-pill">&#127380; Cedula del trabajador accidentado</span>
+        <span class="info-pill">&#128221; Informe detallado del evento</span>
+        <span class="info-pill">&#128248; Fotografias del lugar</span>
+        <span class="info-pill">&#127909; Videos de camaras (si aplica)</span>
+        <span class="info-pill">&#128101; Testimonios de testigos</span>
+        <span class="info-pill">&#127973; Historia clinica inicial</span>
+        <span class="info-pill">&#128203; Registros de capacitaciones y EPP</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECCION 5: QUIZ -->
+  <div class="section" id="sec4">
+    <div class="card">
+      <div class="card-title"><span class="emoji">&#129513;</span>Evaluacion de Conocimientos &mdash; MAFRA</div>
+      <p style="margin-bottom: 20px; color: var(--text);">Responde las siguientes preguntas para validar tu comprension:</p>
+
+      <div class="quiz-container">
+        <div class="quiz-question" id="q1">
+          <h4>1. Cual es el plazo maximo para que MAFRA reporte un accidente de trabajo a la ARL?</h4>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="checkAnswer(1, 'a', 'b')">a) 5 dias habiles</div>
+            <div class="quiz-option" onclick="checkAnswer(1, 'b', 'b')">b) 2 dias habiles</div>
+            <div class="quiz-option" onclick="checkAnswer(1, 'c', 'b')">c) 24 horas</div>
+            <div class="quiz-option" onclick="checkAnswer(1, 'd', 'b')">d) 15 dias calendario</div>
+          </div>
+          <div class="quiz-feedback" id="fb1"></div>
+        </div>
+
+        <div class="quiz-question" id="q2">
+          <h4>2. La higienista dental de MAFRA se pincha con una aguja usada durante un procedimiento. Es accidente de trabajo?</h4>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="checkAnswer(2, 'a', 'a')">a) Si, porque ocurrio por causa del trabajo</div>
+            <div class="quiz-option" onclick="checkAnswer(2, 'b', 'a')">b) No, porque fue culpa de ella</div>
+            <div class="quiz-option" onclick="checkAnswer(2, 'c', 'a')">c) Solo si el paciente tenia una enfermedad</div>
+            <div class="quiz-option" onclick="checkAnswer(2, 'd', 'a')">d) Depende de si usaba guantes</div>
+          </div>
+          <div class="quiz-feedback" id="fb2"></div>
+        </div>
+
+        <div class="quiz-question" id="q3">
+          <h4>3. Que metodologia se recomienda para investigar un accidente leve en MAFRA?</h4>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="checkAnswer(3, 'a', 'b')">a) Solo entrevistar al jefe</div>
+            <div class="quiz-option" onclick="checkAnswer(3, 'b', 'b')">b) Los 5 Porques</div>
+            <div class="quiz-option" onclick="checkAnswer(3, 'c', 'b')">c) Encuesta de satisfaccion</div>
+            <div class="quiz-option" onclick="checkAnswer(3, 'd', 'b')">d) Llamar a la policia</div>
+          </div>
+          <div class="quiz-feedback" id="fb3"></div>
+        </div>
+
+        <div class="quiz-question" id="q4">
+          <h4>4. El odontologo de MAFRA sufre un accidente en su moto particular camino a la clinica. Es AT?</h4>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="checkAnswer(4, 'a', 'b')">a) Si, siempre que vaya al trabajo</div>
+            <div class="quiz-option" onclick="checkAnswer(4, 'b', 'b')">b) No, porque MAFRA no suministra el transporte</div>
+            <div class="quiz-option" onclick="checkAnswer(4, 'c', 'b')">c) Si, si ocurre en dias habiles</div>
+            <div class="quiz-option" onclick="checkAnswer(4, 'd', 'b')">d) Depende de la gravedad</div>
+          </div>
+          <div class="quiz-feedback" id="fb4"></div>
+        </div>
+
+        <div class="quiz-question" id="q5">
+          <h4>5. Quien debe reportar el accidente de trabajo a la ARL?</h4>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="checkAnswer(5, 'a', 'b')">a) El trabajador accidentado</div>
+            <div class="quiz-option" onclick="checkAnswer(5, 'b', 'b')">b) El empleador (MAFRA)</div>
+            <div class="quiz-option" onclick="checkAnswer(5, 'c', 'b')">c) La EPS del trabajador</div>
+            <div class="quiz-option" onclick="checkAnswer(5, 'd', 'b')">d) El medico que lo atiende</div>
+          </div>
+          <div class="quiz-feedback" id="fb5"></div>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 24px;">
+        <button class="btn-primary" onclick="resetQuiz()">&#128260; Reiniciar Quiz</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECCION 6: RESUMEN -->
+  <div class="section" id="sec5">
+    <div class="card">
+      <div class="card-title"><span class="emoji">&#128218;</span>Resumen Ejecutivo para MAFRA</div>
+
+      <div class="summary-stats">
+        <div class="stat-box"><div class="number">2</div><div class="label">Dias habiles para reportar a la ARL</div></div>
+        <div class="stat-box"><div class="number">15</div><div class="label">Dias para investigar el accidente</div></div>
+        <div class="stat-box"><div class="number">200</div><div class="label">SMMLV max. multa por no reportar</div></div>
+        <div class="stat-box"><div class="number">4</div><div class="label">Miembros minimos del equipo investigador</div></div>
+      </div>
+
+      <div style="background: #f5eef7; padding: 20px; border-radius: 14px; margin: 20px 0; border: 1px solid var(--primary-lighter);">
+        <h4 style="color: var(--primary-dark); margin-bottom: 10px;">&#127919; Puntos Clave para Recordar</h4>
+        <ul style="list-style: none; font-size: 0.95rem; color: var(--text);">
+          <li style="margin-bottom: 8px;">&#10003; Un accidente de trabajo es un evento <strong>repentino</strong> que produce lesion y ocurre <strong>por causa o con ocasion del trabajo</strong>.</li>
+          <li style="margin-bottom: 8px;">&#10003; MAFRA debe reportar a la ARL en maximo <strong>2 dias habiles</strong> mediante el FURAT.</li>
+          <li style="margin-bottom: 8px;">&#10003; Todo accidente debe investigarse en <strong>15 dias calendario</strong> con metodologia de los 5 Porques.</li>
+          <li style="margin-bottom: 8px;">&#10003; El equipo investigador incluye: Responsable SST, Jefe inmediato, COPASST y el trabajador.</li>
+          <li style="margin-bottom: 8px;">&#10003; Las acciones correctivas deben tener seguimiento hasta su cierre.</li>
+          <li>&#10003; Los incidentes (casi accidentes) tambien se investigan para prevenir futuros eventos.</li>
+        </ul>
+      </div>
+
+      <div class="norm-ref">
+        <strong>&#128218; Marco Normativo Completo:</strong><br>
+        &bull; Ley 1562 de 2012 &mdash; Riesgos Laborales<br>
+        &bull; Decreto 1072 de 2015, Sector Trabajo, Capitulo 6 &mdash; SG-SST<br>
+        &bull; Resolucion 1401 de 2007 &mdash; Investigacion de Accidentes<br>
+        &bull; Resolucion 0312 de 2019 &mdash; Estandares Minimos del SG-SST<br>
+        &bull; Decreto 1295 de 1994 &mdash; Sistema General de Riesgos Laborales
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="emoji">&#128222;</span>Contactos de Emergencia MAFRA</div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <div class="info-pill">&#128657; Emergencias: 123</div>
+        <div class="info-pill">&#128658; Bomberos: 119</div>
+        <div class="info-pill">&#128659; Policia: 112</div>
+        <div class="info-pill danger">&#128203; ARL de MAFRA: [Linea de su ARL]</div>
+        <div class="info-pill">&#127973; IPS de referencia: [Nombre IPS]</div>
+        <div class="info-pill warning">&#128100; Responsable SST: [Nombre y extension]</div>
+      </div>
+      <p style="margin-top: 14px; font-size: 0.85rem; color: var(--text-light);">&#9888;&#65039; <strong>Nota:</strong> Complete los datos de contacto de MAFRA en esta seccion.</p>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    <img src="data:image/png;base64,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" alt="Logo MAFRA" class="logo-footer">
+    <p>Capacitacion elaborada para <strong>Clinica Odontologica MAFRA</strong> &mdash; Colombia 2026</p>
+    <p style="margin-top: 4px; font-size: 0.75rem;">Basada en la normativa vigente de Seguridad y Salud en el Trabajo (SST)</p>
+  </div>
+</div>
+
+<script>
+  let currentSection = 0;
+  const totalSections = 6;
+
+  function showSection(index) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('sec' + index).classList.add('active');
+    document.querySelectorAll('.nav-tab')[index].classList.add('active');
+    currentSection = index;
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateProgress() {
+    const pct = ((currentSection + 1) / totalSections) * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+  }
+
+  function checkAnswer(qNum, selected, correct) {
+    const question = document.getElementById('q' + qNum);
+    const options = question.querySelectorAll('.quiz-option');
+    const feedback = document.getElementById('fb' + qNum);
+
+    options.forEach(opt => {
+      opt.classList.add('disabled');
+      const onclickAttr = opt.getAttribute('onclick');
+      if (onclickAttr && (onclickAttr.includes("'" + correct + "'") || onclickAttr.includes('"' + correct + '"'))) {
+        opt.classList.add('correct');
+      }
+    });
+
+    const selectedOpt = Array.from(options).find(opt => {
+      const onclickAttr = opt.getAttribute('onclick');
+      return onclickAttr && (onclickAttr.includes("'" + selected + "'") || onclickAttr.includes('"' + selected + '"'));
+    });
+    if (selected !== correct && selectedOpt) {
+      selectedOpt.classList.add('wrong');
+    }
+
+    feedback.classList.add('show');
+    if (selected === correct) {
+      feedback.className = 'quiz-feedback show correct-fb';
+      feedback.innerHTML = '&#9989; <strong>Correcto!</strong> ' + getExplanation(qNum);
+    } else {
+      feedback.className = 'quiz-feedback show wrong-fb';
+      feedback.innerHTML = '&#10060; <strong>Incorrecto.</strong> ' + getExplanation(qNum);
+    }
+  }
+
+  function getExplanation(qNum) {
+    const explanations = {
+      1: 'El Decreto 1072 de 2015 establece que el empleador tiene 2 dias habiles para reportar el accidente a la ARL mediante el FURAT.',
+      2: 'El pinchazo con aguja contaminada durante un procedimiento odontologico es un accidente de trabajo clasico en el sector salud, ya que ocurrio por causa del trabajo.',
+      3: 'Para accidentes leves se utiliza la metodologia de los 5 Porques. Para accidentes graves o mortales se usa el Arbol de Causas (Resolucion 1401 de 2007).',
+      4: 'El accidente en trayecto casa-trabajo solo es AT cuando el transporte es suministrado por el empleador (Ley 1562 de 2012, Art. 3).',
+      5: 'La responsabilidad del reporte recae en el empleador (MAFRA), no en el trabajador. El trabajador debe informar a su jefe, pero el reporte oficial es de la empresa.'
+    };
+    return explanations[qNum];
+  }
+
+  function resetQuiz() {
+    for (let i = 1; i <= 5; i++) {
+      const question = document.getElementById('q' + i);
+      if (question) {
+        const options = question.querySelectorAll('.quiz-option');
+        const feedback = document.getElementById('fb' + i);
+        options.forEach(opt => {
+          opt.classList.remove('disabled', 'correct', 'wrong');
+        });
+        if (feedback) {
+          feedback.classList.remove('show');
+          feedback.innerHTML = '';
+        }
+      }
+    }
+  }
+
+  updateProgress();
+</script>
+
+</body>
+</html>
